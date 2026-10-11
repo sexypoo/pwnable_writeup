@@ -120,26 +120,6 @@ GOT overwrite가 가능하니까, `scanf(”%d”, passcode1)` 이후에 실행�
 
 `scanf(”%d”, passcode1)` 실행 시에 `system(”/bin/sh”)` 함수를 호출하는 부분의 주소로 덮어씌운다
 
-먼저 `fflush`의 GOT를 찾자`welcome` 함수 실행시에 `passcode1` 부분을 덮어씌울 수 있을 것 같다
-
-### 🗡️ 익스플로잇
-
----
-
-`passcode1`을 어떤 걸로 덮어씌우면 좋을까?
-
-GOT overwrite가 가능하니까, `scanf(”%d”, passcode1)` 이후에 실행되는 어떤 특정한 함수의 GOT를 다른 함수의 GOT로 바꿔버리면 어떨까?
-
-코드 내에서 이미 `system(”/bin/sh”)`를 호출하고 있으니, 우리는 `system(”/bin/sh”)` 를 호출하는 부분을 알 수 있다 (PIE가 적용되어 있지 않아서 매번 고정)
-
-#### 1️⃣ `passcode1`의 값을 `fflush`의 GOT 주소로 바꾼다
-
-그러면 `scanf(”%d”, passcode1)`이 `fflush`의 GOT 주소를 조작할 수 있게 된다
-
-#### 2️⃣ `fflush`의 GOT를 `system` 함수 호출부의 주소로
-
-`scanf(”%d”, passcode1)` 실행 시에 `system(”/bin/sh”)` 함수를 호출하는 부분의 주소로 덮어씌운다
-
 먼저 `fflush`의 GOT를 찾자
 <img width="1136" height="750" alt="image" src="https://github.com/user-attachments/assets/64d61b39-934f-4beb-9aeb-b7e483299817" />
 `0x804c014` 인 것을 알 수 있다
